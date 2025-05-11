@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* Additional styles specific to properties page */
         .properties-hero {
@@ -99,7 +99,7 @@
         .listing-details p {
             font-size: 14px;
             margin-bottom: 5px;
-            color: #fff;
+            color: #666;
         }
         
         .listing-details .price {
@@ -398,6 +398,39 @@
             <a href="#" class="page-link active">1</a>
             <a href="#" class="page-link">2</a>
             <a href="#" class="page-link">3</a>
+        </div>
+        
+        <div id="no-results" style="display: none; text-align: center; padding: 50px;">
+            <h2>No properties match your search criteria</h2>
+            <p>Please try adjusting your filters.</p>
+        </div>
+        
+        <script>
+        // Fix for the "No properties match" error
+        document.addEventListener('DOMContentLoaded', function() {
+            const listings = document.querySelectorAll('.listing-item');
+            const noResults = document.getElementById('no-results');
+            
+            // Only show the no results message if there are actually no listings visible
+            function updateNoResultsMessage() {
+                const visibleListings = document.querySelectorAll('.listing-item:not([style*="display: none"])');
+                if (visibleListings.length === 0 && listings.length > 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+            }
+            
+            // Run on page load
+            updateNoResultsMessage();
+            
+            // Add event listeners to all filter controls
+            const filterControls = document.querySelectorAll('select[id$="-filter"]');
+            filterControls.forEach(control => {
+                control.addEventListener('change', updateNoResultsMessage);
+            });
+        });
+        </script>
             <a href="#" class="page-link">4</a>
             <a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a>
         </div>

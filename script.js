@@ -95,9 +95,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const propertyCards = document.querySelectorAll('.property-grid .property-card');
     let currentPropertyIndex = 0;
     let propertyCount = propertyCards.length;
+    
+    // Function to update property display
+    function updatePropertyDisplay() {
+        // Hide all property cards first
+        propertyCards.forEach(card => {
+            card.style.display = 'none';
+        });
+        
+        // Show current property and next one (if available)
+        if (currentPropertyIndex < propertyCount) {
+            propertyCards[currentPropertyIndex].style.display = 'block';
+        }
+        
+        if (currentPropertyIndex + 1 < propertyCount) {
+            propertyCards[currentPropertyIndex + 1].style.display = 'block';
+        }
+    }
 
     if (prevButton && nextButton && propertyCards.length > 0) {
         // Initially show only the first two properties (or all if less than 2)
+        updatePropertyDisplay();
+        
+        // Add event listeners to navigation buttons
+        prevButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentPropertyIndex > 0) {
+                currentPropertyIndex -= 2;
+                if (currentPropertyIndex < 0) currentPropertyIndex = 0;
+                updatePropertyDisplay();
+            }
+        });
+        
+        nextButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentPropertyIndex + 2 < propertyCount) {
+                currentPropertyIndex += 2;
+                updatePropertyDisplay();
+            }
+        });
         for (let i = 0; i < propertyCards.length; i++) {
             if (i >= 2) {
                 propertyCards[i].style.display = 'none';

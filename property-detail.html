@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg7O0z-Nkp8bIYu65EzmYiS6BkZizlvM8&callback=initMap" defer></script>
     <style>
@@ -190,6 +190,16 @@
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 30px;
             margin-top: 40px;
+        }
+        
+        .similar-grid .listing-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .similar-grid .listing-details p {
+            color: #666;
         }
         
         @media (max-width: 992px) {
