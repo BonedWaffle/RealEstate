@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details | Sanchez Realty</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg7O0z-Nkp8bIYu65EzmYiS6BkZizlvM8&callback=initMap" defer></script>
+    <style>
+        /* Additional styles specific to property detail page */
+        .property-hero {
+            height: 60vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .property-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .property-hero-content {
+            padding: 50px;
+            color: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .property-price {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .property-address {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .property-tag {
+            display: inline-block;
+            background-color: #000;
+            color: #fff;
+            padding: 8px 15px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .property-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+        }
+        
+        .property-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-item {
+            text-align: center;
+        }
+        
+        .detail-item i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .detail-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .detail-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .property-description {
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+        
+        .property-features {
+            margin-bottom: 40px;
+        }
+        
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-item i {
+            color: #000;
+        }
+        
+        .property-map {
+            height: 400px;
+            margin-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        
+        .property-agent {
+            background-color: #f9f9f9;
+            padding: 30px;
+        }
+        
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .agent-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .agent-contact {
+            margin-top: 20px;
+        }
+        
+        .agent-contact a {
+            display: block;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .agent-contact i {
+            margin-right: 10px;
+        }
+        
+        .cta-button {
+            display: block;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: #333;
+        }
+        
+        .similar-properties {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px;
+        }
+        
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 992px) {
+            .property-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .property-hero-content {
+                padding: 30px;
+            }
+            
+            .property-content {
+                padding: 30px;
+            }
+            
+            .property-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">OS</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="properties.html?location=ottawa">OTTAWA</a></li>
+                <li><a href="contact.html">CONTACT US</a></li>
+                <li><a href="tel:+19999999999">(999) 999-9999</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <div class="property-hero" id="property-hero">
+        <div class="property-hero-overlay">
+            <div class="property-hero-content">
+                <div class="property-tag" id="property-status">FOR SALE</div>
+                <h1 id="property-title">Luxury Property</h1>
+                <div class="property-price" id="property-price">$0,000,000</div>
+                <div class="property-address" id="property-address">Address, City, Province</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-content">
+        <div class="property-main">
+            <div class="property-details">
+                <div class="detail-item">
+                    <i class="fas fa-bed"></i>
+                    <div class="detail-value" id="property-beds">0</div>
+                    <div class="detail-label">Bedrooms</div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-bath"></i>
+                    <div class="detail-value" id="property-baths">0</div>
+                    <div class="detail-label">Bathrooms</div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-vector-square"></i>
+                    <div class="detail-value" id="property-size">0</div>
+                    <div class="detail-label">Square Feet</div>
+                </div>
+            </div>
+            
+            <div class="property-description">
+                <h2>Description</h2>
+                <p id="property-description">Property description will be displayed here.</p>
+            </div>
+            
+            <div class="property-features">
+                <h2>Features</h2>
+                <div class="features-list" id="property-features">
+                    <!-- Features will be added dynamically -->
+                </div>
+            </div>
+            
+            <div class="property-map" id="property-map">
+                <!-- Google Map will be displayed here -->
+            </div>
+        </div>
+        
+        <div class="property-sidebar">
+            <div class="property-agent">
+                <h3>Listing Agent</h3>
+                <div class="agent-info">
+                    <img src="images/team.jpg" alt="Agent" class="agent-image">
+                    <div>
+                        <h4>Ottawa Sanchez</h4>
+                        <p>Luxury Real Estate Specialist</p>
+                    </div>
+                </div>
+                <div class="agent-contact">
+                    <a href="tel:+19999999999"><i class="fas fa-phone"></i> (999) 999-9999</a>
+                    <a href="mailto:contact@sanchezrealty.com"><i class="fas fa-envelope"></i> contact@sanchezrealty.com</a>
+                </div>
+                <a href="contact.html" class="cta-button">Schedule a Viewing</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="similar-properties">
+        <h2>SIMILAR PROPERTIES</h2>
+        <h1>YOU MAY ALSO LIKE</h1>
+        
+        <div class="similar-grid" id="similar-properties">
+            <!-- Similar properties will be added dynamically -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="index.html">OS</a>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="properties.html">Properties</a></li>
+                    <li><a href="properties.html?location=ottawa">Markets</a></li>
+                    <li><a href="index.html#team">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sanchez Realty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="property-detail.js"></script>
+</body>
+</html>

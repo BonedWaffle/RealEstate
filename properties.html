@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Properties | Sanchez Realty</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Additional styles specific to properties page */
+        .properties-hero {
+            height: 50vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/property-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .property-filters {
+            background-color: #f9f9f9;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-group select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .property-listings {
+            padding: 80px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .listing-item {
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .listing-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .listing-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .listing-tag {
+            position: absolute;
+            top: 15px;
+            right: 0;
+            background-color: #000;
+            color: #fff;
+            padding: 8px 15px;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        
+        .listing-details {
+            padding: 25px;
+        }
+        
+        .listing-details h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .listing-details p {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
+        .listing-details .price {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 15px;
+            color: #000;
+        }
+        
+        .listing-features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+            gap: 10px;
+        }
+        
+        .page-link {
+            display: inline-block;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .page-link.active {
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        
+        .page-link:hover {
+            background-color: #f5f5f5;
+        }
+        
+        @media (max-width: 768px) {
+            .listings-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">OS</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="properties.html?location=ottawa">OTTAWA</a></li>
+                <li><a href="contact.html">CONTACT US</a></li>
+                <li><a href="tel:+19999999999">(999) 999-9999</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <section class="properties-hero">
+        <div class="hero-content">
+            <h1>LUXURY PROPERTIES</h1>
+            <p>DISCOVER EXCEPTIONAL HOMES IN PREMIER LOCATIONS</p>
+        </div>
+    </section>
+
+    <div class="property-filters">
+        <div class="filter-group">
+            <label>Location:</label>
+            <select id="location-filter">
+                <option value="">All Locations</option>
+                <option value="ottawa">Ottawa</option>
+                <option value="westboro">Westboro</option>
+                <option value="glebe">The Glebe</option>
+                <option value="rockcliffe">Rockcliffe Park</option>
+                <option value="kanata">Kanata</option>
+                <option value="orleans">Orleans</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Property Type:</label>
+            <select id="property-type-filter">
+                <option value="">All Types</option>
+                <option value="Apartment">Apartment</option>
+                <option value="House">House</option>
+                <option value="Penthouse">Penthouse</option>
+                <option value="Villa">Villa</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Bedrooms:</label>
+            <select id="bedrooms-filter">
+                <option value="">Any</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+                <option value="5">5+</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Price Range:</label>
+            <select id="price-filter">
+                <option value="">Any</option>
+                <option value="1-5">$1M - $5M</option>
+                <option value="5-10">$5M - $10M</option>
+                <option value="10-20">$10M - $20M</option>
+                <option value="20+">$20M+</option>
+            </select>
+        </div>
+    </div>
+
+    <section class="property-listings">
+        <h2>FEATURED LISTINGS</h2>
+        <h1>EXCEPTIONAL PROPERTIES</h1>
+        
+        <div class="listings-grid">
+            <!-- Property 1 -->
+            <div class="listing-item" data-location="rockcliffe">
+                <div class="listing-image" style="background-image: url('images/property1.jpg');">
+                    <div class="listing-tag">FOR SALE</div>
+                </div>
+                <div class="listing-details">
+                    <h3>200 Rideau Terrace, Unit 1507</h3>
+                    <p>ROCKCLIFFE PARK, OTTAWA, ON K1M 0Z3</p>
+                    <p>Luxury Penthouse with River Views</p>
+                    <p class="price">$35,000,000</p>
+                    <div class="listing-features">
+                        <div class="feature">
+                            <i class="fas fa-bed"></i>
+                            <span>10 Beds</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bath"></i>
+                            <span>8 Baths</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-vector-square"></i>
+                            <span>12,809 sq.ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 2 -->
+            <div class="listing-item" data-location="rockcliffe">
+                <div class="listing-image" style="background-image: url('images/property2.jpg');">
+                    <div class="listing-tag">FOR SALE</div>
+                </div>
+                <div class="listing-details">
+                    <h3>12 Sussex Drive</h3>
+                    <p>ROCKCLIFFE PARK, OTTAWA, ON K1M 1M2</p>
+                    <p>Waterfront Estate with Private Garden</p>
+                    <p class="price">$19,995,000</p>
+                    <div class="listing-features">
+                        <div class="feature">
+                            <i class="fas fa-bed"></i>
+                            <span>4 Beds</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bath"></i>
+                            <span>5 Baths</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-vector-square"></i>
+                            <span>3,383 sq.ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 3 -->
+            <div class="listing-item" data-location="westboro">
+                <div class="listing-image" style="background-image: url('images/property3.jpg');">
+                    <div class="listing-tag">FOR SALE</div>
+                </div>
+                <div class="listing-details">
+                    <h3>255 Richmond Road, Penthouse</h3>
+                    <p>WESTBORO, OTTAWA, ON K1Z 6X3</p>
+                    <p>Luxury Residence with Gatineau Park Views</p>
+                    <p class="price">$28,500,000</p>
+                    <div class="listing-features">
+                        <div class="feature">
+                            <i class="fas fa-bed"></i>
+                            <span>3 Beds</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bath"></i>
+                            <span>4.5 Baths</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-vector-square"></i>
+                            <span>4,019 sq.ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 4 -->
+            <div class="listing-item" data-location="ottawa">
+                <div class="listing-image" style="background-image: url('images/property4.jpg');">
+                    <div class="listing-tag">FOR SALE</div>
+                </div>
+                <div class="listing-details">
+                    <h3>90 George Street, Suite 2201</h3>
+                    <p>BYWARD MARKET, OTTAWA, ON K1N 0A8</p>
+                    <p>Prestigious Residence in Ottawa's Historic District</p>
+                    <p class="price">$42,750,000</p>
+                    <div class="listing-features">
+                        <div class="feature">
+                            <i class="fas fa-bed"></i>
+                            <span>4 Beds</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bath"></i>
+                            <span>5.5 Baths</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-vector-square"></i>
+                            <span>5,211 sq.ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 5 -->
+            <div class="listing-item" data-location="glebe">
+                <div class="listing-image" style="background-image: url('images/property5.jpg');">
+                    <div class="listing-tag">FOR SALE</div>
+                </div>
+                <div class="listing-details">
+                    <h3>118 First Avenue</h3>
+                    <p>THE GLEBE, OTTAWA, ON K1S 2G4</p>
+                    <p>Historic Townhouse in Prime Location</p>
+                    <p class="price">$8,995,000</p>
+                    <div class="listing-features">
+                        <div class="feature">
+                            <i class="fas fa-bed"></i>
+                            <span>3 Beds</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bath"></i>
+                            <span>2.5 Baths</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-vector-square"></i>
+                            <span>2,706 sq.ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 6 -->
+            <div class="listing-item" data-location="ottawa">
+                <div class="listing-image" style="background-image: url('images/property6.jpg');">
+                    <div class="listing-tag">FOR SALE</div>
+                </div>
+                <div class="listing-details">
+                    <h3>1 Island Park Drive</h3>
+                    <p>ISLAND PARK, OTTAWA, ON K1Y 0A7</p>
+                    <p>Riverside Estate with Private Park Access</p>
+                    <p class="price">$52,500,000</p>
+                    <div class="listing-features">
+                        <div class="feature">
+                            <i class="fas fa-bed"></i>
+                            <span>8 Beds</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bath"></i>
+                            <span>10 Baths</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-vector-square"></i>
+                            <span>11,665 sq.ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">4</a>
+            <a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="index.html">OS</a>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="properties.html">Properties</a></li>
+                    <li><a href="properties.html?location=ottawa">Markets</a></li>
+                    <li><a href="index.html#team">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sanchez Realty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Property data - in a real application, this would come from a database
+        const properties = [
+            {
+                id: 1,
+                title: "200 Rideau Terrace, Unit 1507",
+                address: "ROCKCLIFFE PARK, OTTAWA, ON K1M 0Z3",
+                description: "Luxury Penthouse with River Views",
+                price: "$35,000,000",
+                priceValue: 35,
+                beds: 10,
+                baths: 8,
+                sqft: "12,809",
+                image: "property1.jpg",
+                status: "FOR SALE",
+                type: "Penthouse",
+                location: "rockcliffe"
+            },
+            {
+                id: 2,
+                title: "12 Sussex Drive",
+                address: "ROCKCLIFFE PARK, OTTAWA, ON K1M 1M2",
+                description: "Waterfront Estate with Private Garden",
+                price: "$19,995,000",
+                priceValue: 19.995,
+                beds: 4,
+                baths: 5,
+                sqft: "3,383",
+                image: "property2.jpg",
+                status: "FOR SALE",
+                type: "House",
+                location: "rockcliffe"
+            },
+            {
+                id: 3,
+                title: "255 Richmond Road, Penthouse",
+                address: "WESTBORO, OTTAWA, ON K1Z 6X3",
+                description: "Luxury Residence with Gatineau Park Views",
+                price: "$28,500,000",
+                priceValue: 28.5,
+                beds: 3,
+                baths: 4.5,
+                sqft: "4,019",
+                image: "property3.jpg",
+                status: "FOR SALE",
+                type: "Penthouse",
+                location: "westboro"
+            },
+            {
+                id: 4,
+                title: "90 George Street, Suite 2201",
+                address: "BYWARD MARKET, OTTAWA, ON K1N 0A8",
+                description: "Prestigious Residence in Ottawa's Historic District",
+                price: "$42,750,000",
+                priceValue: 42.75,
+                beds: 4,
+                baths: 5.5,
+                sqft: "5,211",
+                image: "property4.jpg",
+                status: "FOR SALE",
+                type: "Apartment",
+                location: "ottawa"
+            },
+            {
+                id: 5,
+                title: "118 First Avenue",
+                address: "THE GLEBE, OTTAWA, ON K1S 2G4",
+                description: "Historic Townhouse in Prime Location",
+                price: "$8,995,000",
+                priceValue: 8.995,
+                beds: 3,
+                baths: 2.5,
+                sqft: "2,706",
+                image: "property5.jpg",
+                status: "FOR SALE",
+                type: "House",
+                location: "glebe"
+            },
+            {
+                id: 6,
+                title: "1 Island Park Drive",
+                address: "ISLAND PARK, OTTAWA, ON K1Y 0A7",
+                description: "Riverside Estate with Private Park Access",
+                price: "$52,500,000",
+                priceValue: 52.5,
+                beds: 8,
+                baths: 10,
+                sqft: "11,665",
+                image: "property6.jpg",
+                status: "FOR SALE",
+                type: "Villa",
+                location: "ottawa"
+            }
+        ];
+
+        // Add filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make property listings clickable
+            const propertyItems = document.querySelectorAll('.listing-item');
+            propertyItems.forEach((item, index) => {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', function() {
+                    // Get the property ID from the data attribute or use the index + 1
+                    const propertyId = index + 1;
+                    window.location.href = `property-detail.html?id=${propertyId}`;
+                });
+            });
+
+            // Get filter elements
+            const locationFilter = document.getElementById('location-filter');
+            const propertyTypeFilter = document.getElementById('property-type-filter');
+            const bedroomsFilter = document.getElementById('bedrooms-filter');
+            const priceFilter = document.getElementById('price-filter');
+            
+            // Check URL parameters for location filter
+            const urlParams = new URLSearchParams(window.location.search);
+            const locationParam = urlParams.get('location');
+            
+            if (locationParam && locationFilter) {
+                // Set the select value based on URL parameter
+                locationFilter.value = locationParam.toLowerCase();
+            }
+            
+            // Apply filters function
+            function applyFilters() {
+                const location = locationFilter ? locationFilter.value : '';
+                const propertyType = propertyTypeFilter ? propertyTypeFilter.value : '';
+                const bedrooms = bedroomsFilter ? bedroomsFilter.value : '';
+                const priceRange = priceFilter ? priceFilter.value : '';
+                
+                propertyItems.forEach((item, index) => {
+                    const property = properties[index];
+                    const itemLocation = item.getAttribute('data-location');
+                    
+                    // Check if the property matches all selected filters
+                    let locationMatch = !location || location === '' || itemLocation === location;
+                    let typeMatch = !propertyType || propertyType === '' || property.type === propertyType;
+                    let bedroomsMatch = !bedrooms || bedrooms === '' || property.beds >= parseInt(bedrooms);
+                    
+                    // Price range filter
+                    let priceMatch = true;
+                    if (priceRange && priceRange !== '') {
+                        if (priceRange === '1-5') {
+                            priceMatch = property.priceValue >= 1 && property.priceValue <= 5;
+                        } else if (priceRange === '5-10') {
+                            priceMatch = property.priceValue > 5 && property.priceValue <= 10;
+                        } else if (priceRange === '10-20') {
+                            priceMatch = property.priceValue > 10 && property.priceValue <= 20;
+                        } else if (priceRange === '20+') {
+                            priceMatch = property.priceValue > 20;
+                        }
+                    }
+                    
+                    // Show or hide the property based on filter matches
+                    if (locationMatch && typeMatch && bedroomsMatch && priceMatch) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Check if any properties are visible
+                const visibleProperties = document.querySelectorAll('.listing-item[style="display: block;"]');
+                const noResultsMessage = document.getElementById('no-results-message');
+                
+                if (visibleProperties.length === 0) {
+                    // Create a message if it doesn't exist
+                    if (!noResultsMessage) {
+                        const message = document.createElement('div');
+                        message.id = 'no-results-message';
+                        message.style.textAlign = 'center';
+                        message.style.padding = '50px';
+                        message.style.width = '100%';
+                        message.innerHTML = '<h3>No properties match your search criteria</h3><p>Please try adjusting your filters.</p>';
+                        
+                        const listingsGrid = document.querySelector('.listings-grid');
+                        listingsGrid.appendChild(message);
+                    } else {
+                        noResultsMessage.style.display = 'block';
+                    }
+                } else if (noResultsMessage) {
+                    noResultsMessage.style.display = 'none';
+                }
+            }
+            
+            // Apply initial filters
+            applyFilters();
+            
+            // Add event listeners for filter changes
+            if (locationFilter) {
+                locationFilter.addEventListener('change', applyFilters);
+            }
+            
+            if (propertyTypeFilter) {
+                propertyTypeFilter.addEventListener('change', applyFilters);
+            }
+            
+            if (bedroomsFilter) {
+                bedroomsFilter.addEventListener('change', applyFilters);
+            }
+            
+            if (priceFilter) {
+                priceFilter.addEventListener('change', applyFilters);
+            }
+        });
+    </script>
+</body>
+</html>

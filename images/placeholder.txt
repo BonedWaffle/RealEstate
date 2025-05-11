@@ -1,0 +1,12 @@
+This directory contains the following image files needed for the website:
+
+- hero-bg.jpg (New York skyline background for hero section)
+- nyc.jpg (New York City market image)
+- hamptons.jpg (The Hamptons market image)
+- miami.jpg (Miami market image)
+- team.jpg (Team photo)
+- property1.jpg (Luxury property image 1)
+- property2.jpg (Luxury property image 2)
+- Press logos: mansion-global.png, observer.png, ny-insider.png, jerusalem-post.png, digital-journal.png
+
+Please add high-quality images that match the luxury real estate aesthetic of the website.
