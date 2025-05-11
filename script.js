@@ -87,29 +87,80 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Simple property slider functionality
-const prevButton = document.querySelector('.property-controls a:first-child');
-const nextButton = document.querySelector('.property-controls a:last-child');
-const propertyItems = document.querySelectorAll('.property-item');
-let currentPropertyIndex = 0;
+// Property slider functionality for index page
+document.addEventListener('DOMContentLoaded', function() {
+    // For featured properties in index.html
+    const prevButton = document.querySelector('.property-navigation .nav-link:first-child');
+    const nextButton = document.querySelector('.property-navigation .nav-link:last-child');
+    const propertyCards = document.querySelectorAll('.property-grid .property-card');
+    let currentPropertyIndex = 0;
+    let propertyCount = propertyCards.length;
 
-if (prevButton && nextButton && propertyItems.length > 0) {
-    // Initially hide all properties except the first one
-    for (let i = 1; i < propertyItems.length; i++) {
-        propertyItems[i].style.display = 'none';
+    if (prevButton && nextButton && propertyCards.length > 0) {
+        // Initially show only the first two properties (or all if less than 2)
+        for (let i = 0; i < propertyCards.length; i++) {
+            if (i >= 2) {
+                propertyCards[i].style.display = 'none';
+            }
+        }
+        
+        prevButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (propertyCount <= 2) return; // No need to navigate if 2 or fewer properties
+            
+            // Hide current properties
+            propertyCards[currentPropertyIndex].style.display = 'none';
+            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'none';
+            
+            // Calculate new index (move back by 2)
+            currentPropertyIndex = (currentPropertyIndex - 2 + propertyCount) % propertyCount;
+            
+            // Show new properties
+            propertyCards[currentPropertyIndex].style.display = 'block';
+            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'block';
+        });
+        
+        nextButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (propertyCount <= 2) return; // No need to navigate if 2 or fewer properties
+            
+            // Hide current properties
+            propertyCards[currentPropertyIndex].style.display = 'none';
+            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'none';
+            
+            // Calculate new index (move forward by 2)
+            currentPropertyIndex = (currentPropertyIndex + 2) % propertyCount;
+            
+            // Show new properties
+            propertyCards[currentPropertyIndex].style.display = 'block';
+            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'block';
+        });
     }
     
-    prevButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        propertyItems[currentPropertyIndex].style.display = 'none';
-        currentPropertyIndex = (currentPropertyIndex - 1 + propertyItems.length) % propertyItems.length;
-        propertyItems[currentPropertyIndex].style.display = 'block';
-    });
-    
-    nextButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        propertyItems[currentPropertyIndex].style.display = 'none';
-        currentPropertyIndex = (currentPropertyIndex + 1) % propertyItems.length;
-        propertyItems[currentPropertyIndex].style.display = 'block';
-    });
-}
+    // For property-item elements (if they exist in other pages)
+    const propertyControlsPrev = document.querySelector('.property-controls a:first-child');
+    const propertyControlsNext = document.querySelector('.property-controls a:last-child');
+    const propertyItems = document.querySelectorAll('.property-item');
+    let currentItemIndex = 0;
+
+    if (propertyControlsPrev && propertyControlsNext && propertyItems.length > 0) {
+        // Initially hide all properties except the first one
+        for (let i = 1; i < propertyItems.length; i++) {
+            propertyItems[i].style.display = 'none';
+        }
+        
+        propertyControlsPrev.addEventListener('click', (e) => {
+            e.preventDefault();
+            propertyItems[currentItemIndex].style.display = 'none';
+            currentItemIndex = (currentItemIndex - 1 + propertyItems.length) % propertyItems.length;
+            propertyItems[currentItemIndex].style.display = 'block';
+        });
+        
+        propertyControlsNext.addEventListener('click', (e) => {
+            e.preventDefault();
+            propertyItems[currentItemIndex].style.display = 'none';
+            currentItemIndex = (currentItemIndex + 1) % propertyItems.length;
+            propertyItems[currentItemIndex].style.display = 'block';
+        });
+    }
+});

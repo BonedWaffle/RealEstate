@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team | Sanchez Realty</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Additional styles specific to team page */
+        .team-hero {
+            height: 50vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/team-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .team-members {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 50px;
+        }
+        
+        .team-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .team-intro h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .team-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .team-member {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .member-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .member-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .member-bio {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .member-contact {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .member-contact a {
+            color: #000;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        
+        .member-contact a:hover {
+            color: #666;
+        }
+        
+        .values-section {
+            background-color: #f9f9f9;
+            padding: 80px 50px;
+        }
+        
+        .values-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .value-item {
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+        }
+        
+        .value-item i {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .value-item h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .value-item p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">OS</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="properties.html?location=ottawa">OTTAWA</a></li>
+                <li><a href="contact.html">CONTACT US</a></li>
+                <li><a href="tel:+19999999999">(999) 999-9999</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <section class="team-hero">
+        <div class="hero-content">
+            <h1>OUR TEAM</h1>
+            <p>MEET THE EXPERTS BEHIND SANCHEZ REALTY</p>
+        </div>
+    </section>
+
+    <section class="team-members">
+        <div class="team-intro">
+            <h1>LUXURY REAL ESTATE EXPERTS</h1>
+            <p>Our team of experienced professionals is dedicated to providing exceptional service and expertise in the luxury real estate market. With a deep understanding of Ottawa's most prestigious neighborhoods and a commitment to client satisfaction, we deliver results that exceed expectations.</p>
+        </div>
+
+        <div class="team-grid">
+            <!-- Team Member 1 -->
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="images/team1.jpg" alt="Oscar Sanchez">
+                </div>
+                <h3 class="member-name">Oscar Sanchez</h3>
+                <p class="member-title">Founder & Principal Broker</p>
+                <p class="member-bio">With over 20 years of experience in luxury real estate, Oscar has established himself as one of Ottawa's premier brokers, specializing in high-end properties and exclusive listings.</p>
+                <div class="member-contact">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="images/team2.jpg" alt="Lina Rodriguez">
+                </div>
+                <h3 class="member-name">Lina Rodriguez</h3>
+                <p class="member-title">Senior Real Estate Advisor</p>
+                <p class="member-bio">Lina brings a wealth of knowledge in international real estate markets, helping clients navigate complex transactions with ease and ensuring a seamless experience.</p>
+                <div class="member-contact">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="images/team3.jpg" alt="Jason Chen">
+                </div>
+                <h3 class="member-name">Jason Chen</h3>
+                <p class="member-title">Luxury Property Specialist</p>
+                <p class="member-bio">Jason specializes in architectural masterpieces and unique properties, with a keen eye for design and value that helps clients find their perfect luxury home.</p>
+                <div class="member-contact">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="images/team4.jpg" alt="Samantha Williams">
+                </div>
+                <h3 class="member-name">Samantha Williams</h3>
+                <p class="member-title">Client Relations Manager</p>
+                <p class="member-bio">Sam ensures that every client receives personalized attention and support throughout their real estate journey, coordinating all aspects of the transaction process.</p>
+                <div class="member-contact">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="values-content">
+            <h2>OUR APPROACH</h2>
+            <h1>CORE VALUES & PRINCIPLES</h1>
+
+            <div class="values-grid">
+                <div class="value-item">
+                    <i class="fas fa-handshake"></i>
+                    <h3>INTEGRITY</h3>
+                    <p>We operate with the highest ethical standards, ensuring transparency and honesty in every interaction and transaction.</p>
+                </div>
+
+                <div class="value-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>EXPERTISE</h3>
+                    <p>Our team's deep market knowledge and industry experience provide clients with valuable insights and strategic advantages.</p>
+                </div>
+
+                <div class="value-item">
+                    <i class="fas fa-gem"></i>
+                    <h3>EXCELLENCE</h3>
+                    <p>We are committed to delivering exceptional service and results that consistently exceed our clients' expectations.</p>
+                </div>
+
+                <div class="value-item">
+                    <i class="fas fa-users"></i>
+                    <h3>CLIENT-FOCUSED</h3>
+                    <p>We prioritize our clients' needs and goals, tailoring our approach to provide personalized solutions for each unique situation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href="index.html">OS</a>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="properties.html">Properties</a></li>
+                    <li><a href="properties.html?location=ottawa">Markets</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sanchez Realty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
