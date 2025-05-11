@@ -398,6 +398,8 @@
             <a href="#" class="page-link active">1</a>
             <a href="#" class="page-link">2</a>
             <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">4</a>
+            <a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a>
         </div>
         
         <div id="no-results" style="display: none; text-align: center; padding: 50px;">
@@ -410,6 +412,35 @@
         document.addEventListener('DOMContentLoaded', function() {
             const listings = document.querySelectorAll('.listing-item');
             const noResults = document.getElementById('no-results');
+            const paginationLinks = document.querySelectorAll('.pagination .page-link');
+            const itemsPerPage = 3;
+            let currentPage = 0;
+            
+            // Function to show properties for the current page
+            function showPropertiesForPage(page) {
+                const startIndex = page * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                
+                // Hide all listings first
+                listings.forEach((listing, index) => {
+                    if (listing.style.display !== 'none') { // Only affect visible listings (not filtered out)
+                        if (index >= startIndex && index < endIndex) {
+                            listing.style.display = 'block';
+                        } else {
+                            listing.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Update active page link
+                paginationLinks.forEach((link, index) => {
+                    if (index === page) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
             
             // Only show the no results message if there are actually no listings visible
             function updateNoResultsMessage() {
@@ -421,19 +452,32 @@
                 }
             }
             
+            // Add click event to pagination links
+            paginationLinks.forEach((link, index) => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentPage = index;
+                    showPropertiesForPage(currentPage);
+                    updateNoResultsMessage();
+                });
+            });
+            
             // Run on page load
+            showPropertiesForPage(currentPage);
             updateNoResultsMessage();
             
             // Add event listeners to all filter controls
             const filterControls = document.querySelectorAll('select[id$="-filter"]');
             filterControls.forEach(control => {
-                control.addEventListener('change', updateNoResultsMessage);
+                control.addEventListener('change', function() {
+                    // Reset to first page when filters change
+                    currentPage = 0;
+                    showPropertiesForPage(currentPage);
+                    updateNoResultsMessage();
+                });
             });
         });
         </script>
-            <a href="#" class="page-link">4</a>
-            <a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a>
-        </div>
     </section>
 
     <footer>
@@ -625,10 +669,17 @@
                 });
                 
                 // Check if any properties are visible
-                const visibleProperties = document.querySelectorAll('.listing-item[style="display: block;"]');
+                let visibleCount = 0;
+                propertyItems.forEach(item => {
+                    if (item.style.display !== 'none') {
+                        visibleCount++;
+                    }
+                });
+                
+                // Get the no results message element
                 const noResultsMessage = document.getElementById('no-results-message');
                 
-                if (visibleProperties.length === 0) {
+                if (visibleCount === 0) {
                     // Create a message if it doesn't exist
                     if (!noResultsMessage) {
                         const message = document.createElement('div');

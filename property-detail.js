@@ -221,10 +221,18 @@ function loadSimilarProperties(currentProperty) {
     const similarContainer = document.getElementById('similar-properties');
     similarContainer.innerHTML = '';
     
-    // Filter properties in the same location, excluding the current one
-    const similarProperties = properties.filter(p => 
+    // First try to find properties in the same location, excluding the current one
+    let similarProperties = properties.filter(p => 
         p.location === currentProperty.location && p.id !== currentProperty.id
     );
+    
+    // If we don't have at least 3 properties, add properties from other locations
+    if (similarProperties.length < 3) {
+        const otherProperties = properties.filter(p => 
+            p.location !== currentProperty.location && p.id !== currentProperty.id
+        );
+        similarProperties = [...similarProperties, ...otherProperties];
+    }
     
     // Limit to 3 similar properties
     const limitedProperties = similarProperties.slice(0, 3);

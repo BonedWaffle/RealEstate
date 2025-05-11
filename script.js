@@ -134,43 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 updatePropertyDisplay();
             }
         });
-        for (let i = 0; i < propertyCards.length; i++) {
-            if (i >= 2) {
-                propertyCards[i].style.display = 'none';
-            }
-        }
-        
-        prevButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (propertyCount <= 2) return; // No need to navigate if 2 or fewer properties
-            
-            // Hide current properties
-            propertyCards[currentPropertyIndex].style.display = 'none';
-            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'none';
-            
-            // Calculate new index (move back by 2)
-            currentPropertyIndex = (currentPropertyIndex - 2 + propertyCount) % propertyCount;
-            
-            // Show new properties
-            propertyCards[currentPropertyIndex].style.display = 'block';
-            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'block';
-        });
-        
-        nextButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (propertyCount <= 2) return; // No need to navigate if 2 or fewer properties
-            
-            // Hide current properties
-            propertyCards[currentPropertyIndex].style.display = 'none';
-            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'none';
-            
-            // Calculate new index (move forward by 2)
-            currentPropertyIndex = (currentPropertyIndex + 2) % propertyCount;
-            
-            // Show new properties
-            propertyCards[currentPropertyIndex].style.display = 'block';
-            propertyCards[(currentPropertyIndex + 1) % propertyCount].style.display = 'block';
-        });
     }
     
     // For property-item elements (if they exist in other pages)
