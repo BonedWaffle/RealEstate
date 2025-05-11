@@ -408,13 +408,108 @@
         </div>
         
         <script>
-        // Fix for the "No properties match" error
+        // Improved pagination and filtering system
         document.addEventListener('DOMContentLoaded', function() {
             const listings = document.querySelectorAll('.listing-item');
             const noResults = document.getElementById('no-results');
-            const paginationLinks = document.querySelectorAll('.pagination .page-link');
+            const paginationContainer = document.querySelector('.pagination');
             const itemsPerPage = 3;
             let currentPage = 0;
+            let filteredListings = [];
+            
+            // Function to update which listings are visible after filtering
+            function updateFilteredListings() {
+                filteredListings = [];
+                listings.forEach(listing => {
+                    // If the listing is not filtered out (not hidden by filter)
+                    if (listing.dataset.filtered !== 'hidden') {
+                        filteredListings.push(listing);
+                    }
+                });
+                
+                // Reset to first page when filters change
+                currentPage = 0;
+                
+                // Update pagination based on filtered listings
+                updatePagination();
+                
+                // Show properties for the current page
+                showPropertiesForPage(currentPage);
+                
+                // Update no results message
+                updateNoResultsMessage();
+            }
+            
+            // Function to dynamically generate pagination links
+            function updatePagination() {
+                // Clear existing pagination links
+                paginationContainer.innerHTML = '';
+                
+                // Calculate total pages needed
+                const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
+                
+                // Don't show pagination if there's only one page or no results
+                if (totalPages <= 1) {
+                    paginationContainer.style.display = 'none';
+                    return;
+                }
+                
+                // Show pagination if there are multiple pages
+                paginationContainer.style.display = 'flex';
+                
+                // Generate pagination links
+                for (let i = 0; i < totalPages; i++) {
+                    const pageLink = document.createElement('a');
+                    pageLink.href = '#';
+                    pageLink.className = 'page-link';
+                    pageLink.textContent = i + 1;
+                    
+                    if (i === currentPage) {
+                        pageLink.classList.add('active');
+                    }
+                    
+                    pageLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        currentPage = i;
+                        showPropertiesForPage(currentPage);
+                        
+                        // Update active class
+                        document.querySelectorAll('.pagination .page-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    });
+                    
+                    paginationContainer.appendChild(pageLink);
+                }
+                
+                // Add next button if there are more than one page
+                if (totalPages > 1) {
+                    const nextLink = document.createElement('a');
+                    nextLink.href = '#';
+                    nextLink.className = 'page-link';
+                    nextLink.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    
+                    nextLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (currentPage < totalPages - 1) {
+                            currentPage++;
+                            showPropertiesForPage(currentPage);
+                            
+                            // Update active class
+                            document.querySelectorAll('.pagination .page-link').forEach((link, index) => {
+                                if (index === currentPage) {
+                                    link.classList.add('active');
+                                } else {
+                                    link.classList.remove('active');
+                                }
+                            });
+                        }
+                    });
+                    
+                    paginationContainer.appendChild(nextLink);
+                }
+            }
             
             // Function to show properties for the current page
             function showPropertiesForPage(page) {
@@ -422,61 +517,38 @@
                 const endIndex = startIndex + itemsPerPage;
                 
                 // Hide all listings first
-                listings.forEach((listing, index) => {
-                    if (listing.style.display !== 'none') { // Only affect visible listings (not filtered out)
-                        if (index >= startIndex && index < endIndex) {
-                            listing.style.display = 'block';
-                        } else {
-                            listing.style.display = 'none';
-                        }
-                    }
-                });
-                
-                // Update active page link
-                paginationLinks.forEach((link, index) => {
-                    if (index === page) {
-                        link.classList.add('active');
+                filteredListings.forEach((listing, index) => {
+                    if (index >= startIndex && index < endIndex) {
+                        listing.style.display = 'block';
                     } else {
-                        link.classList.remove('active');
+                        listing.style.display = 'none';
                     }
                 });
             }
             
             // Only show the no results message if there are actually no listings visible
             function updateNoResultsMessage() {
-                const visibleListings = document.querySelectorAll('.listing-item:not([style*="display: none"])');
-                if (visibleListings.length === 0 && listings.length > 0) {
+                if (filteredListings.length === 0) {
                     noResults.style.display = 'block';
                 } else {
                     noResults.style.display = 'none';
                 }
             }
             
-            // Add click event to pagination links
-            paginationLinks.forEach((link, index) => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    currentPage = index;
-                    showPropertiesForPage(currentPage);
-                    updateNoResultsMessage();
-                });
+            // Initialize all listings as visible and part of filtered listings
+            listings.forEach(listing => {
+                listing.dataset.filtered = 'visible';
+                filteredListings.push(listing);
             });
             
-            // Run on page load
+            // Initial pagination setup
+            updatePagination();
+            
+            // Show properties for the first page
             showPropertiesForPage(currentPage);
-            updateNoResultsMessage();
             
-            // Add event listeners to all filter controls
-            const filterControls = document.querySelectorAll('select[id$="-filter"]');
-            filterControls.forEach(control => {
-                control.addEventListener('change', function() {
-                    // Reset to first page when filters change
-                    currentPage = 0;
-                    showPropertiesForPage(currentPage);
-                    updateNoResultsMessage();
-                });
-            });
-        });
+            // Update no results message
+            updateNoResultsMessage();
         </script>
     </section>
 
@@ -621,14 +693,7 @@
             const bedroomsFilter = document.getElementById('bedrooms-filter');
             const priceFilter = document.getElementById('price-filter');
             
-            // Check URL parameters for location filter
-            const urlParams = new URLSearchParams(window.location.search);
-            const locationParam = urlParams.get('location');
-            
-            if (locationParam && locationFilter) {
-                // Set the select value based on URL parameter
-                locationFilter.value = locationParam.toLowerCase();
-            }
+            // Make property listings clickable
             
             // Apply filters function
             function applyFilters() {
@@ -642,7 +707,7 @@
                     const itemLocation = item.getAttribute('data-location');
                     
                     // Check if the property matches all selected filters
-                    let locationMatch = !location || location === '' || itemLocation === location;
+                    let locationMatch = !location || location === '' || itemLocation.includes(location);
                     let typeMatch = !propertyType || propertyType === '' || property.type === propertyType;
                     let bedroomsMatch = !bedrooms || bedrooms === '' || property.beds >= parseInt(bedrooms);
                     
@@ -660,63 +725,55 @@
                         }
                     }
                     
-                    // Show or hide the property based on filter matches
+                    // Mark the item as filtered or not using dataset property
                     if (locationMatch && typeMatch && bedroomsMatch && priceMatch) {
-                        item.style.display = 'block';
+                        item.dataset.filtered = 'visible';
                     } else {
-                        item.style.display = 'none';
+                        item.dataset.filtered = 'hidden';
                     }
                 });
-                
-                // Check if any properties are visible
-                let visibleCount = 0;
-                propertyItems.forEach(item => {
-                    if (item.style.display !== 'none') {
-                        visibleCount++;
-                    }
-                });
-                
-                // Get the no results message element
-                const noResultsMessage = document.getElementById('no-results-message');
-                
-                if (visibleCount === 0) {
-                    // Create a message if it doesn't exist
-                    if (!noResultsMessage) {
-                        const message = document.createElement('div');
-                        message.id = 'no-results-message';
-                        message.style.textAlign = 'center';
-                        message.style.padding = '50px';
-                        message.style.width = '100%';
-                        message.innerHTML = '<h3>No properties match your search criteria</h3><p>Please try adjusting your filters.</p>';
-                        
-                        const listingsGrid = document.querySelector('.listings-grid');
-                        listingsGrid.appendChild(message);
-                    } else {
-                        noResultsMessage.style.display = 'block';
-                    }
-                } else if (noResultsMessage) {
-                    noResultsMessage.style.display = 'none';
-                }
             }
             
-            // Apply initial filters
+            // Check URL parameters for location filter and apply initial filters
+            const urlParams = new URLSearchParams(window.location.search);
+            const locationParam = urlParams.get('location');
+            
+            if (locationParam && locationFilter) {
+                // Set the select value based on URL parameter
+                locationFilter.value = locationParam.toLowerCase();
+            }
+            
+            // Apply initial filters and update pagination
             applyFilters();
+            updateFilteredListings();
             
             // Add event listeners for filter changes
             if (locationFilter) {
-                locationFilter.addEventListener('change', applyFilters);
+                locationFilter.addEventListener('change', function() {
+                    applyFilters();
+                    updateFilteredListings();
+                });
             }
             
             if (propertyTypeFilter) {
-                propertyTypeFilter.addEventListener('change', applyFilters);
+                propertyTypeFilter.addEventListener('change', function() {
+                    applyFilters();
+                    updateFilteredListings();
+                });
             }
             
             if (bedroomsFilter) {
-                bedroomsFilter.addEventListener('change', applyFilters);
+                bedroomsFilter.addEventListener('change', function() {
+                    applyFilters();
+                    updateFilteredListings();
+                });
             }
             
             if (priceFilter) {
-                priceFilter.addEventListener('change', applyFilters);
+                priceFilter.addEventListener('change', function() {
+                    applyFilters();
+                    updateFilteredListings();
+                });
             }
         });
     </script>
